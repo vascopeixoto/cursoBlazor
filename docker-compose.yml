@@ -1,0 +1,8 @@
+version: '3.4'
+
+services:
+  carrentalmanagement.client:
+    image: ${DOCKER_REGISTRY-}carrentalmanagement
+    build:
+      context: .
+      dockerfile: CarRentalManagement/Client/Dockerfile
