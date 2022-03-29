@@ -4,6 +4,7 @@
 @inject NavigationManager Navigation
 @inject SignOutSessionStateManager SignOutManager
 
+
 <div class="top-row pl-4 navbar navbar-dark">
     <a class="navbar-brand" href="">CarRentalManagement</a>
     <button class="navbar-toggler" @onclick="ToggleNavMenu">
@@ -67,7 +68,8 @@
     </ul>
 </div>
 
-@code { private bool collapseNavMenu = true;
+@code {
+    private bool collapseNavMenu = true;
 
     private string NavMenuCssClass => collapseNavMenu ? "collapse" : null;
 

@@ -26,9 +26,11 @@ namespace CarRentalManagement.Server
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlServer(
-                    Configuration.GetConnectionString("DefaultConnection")));
+            var connectionString = "server=localhost;user=root;password=Vasco55968016!;database=ef";
+            var serverVersion = ServerVersion.AutoDetect(connectionString);
+            services.AddDbContext<ApplicationDbContext>(
+            dbContextOptions => dbContextOptions
+                .UseMySql(connectionString, serverVersion));
 
             services.AddDatabaseDeveloperPageExceptionFilter();
 
