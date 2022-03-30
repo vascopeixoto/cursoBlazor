@@ -34,9 +34,13 @@
     <None Remove="Configurations\" />
     <None Remove="Configurations\Entities\" />
     <None Remove="Microsoft.EntityFrameworkCore.Sqlite" />
+    <None Remove="IRepository\" />
+    <None Remove="IRepository %28copy%29\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Configurations\" />
     <Folder Include="Configurations\Entities\" />
+    <Folder Include="IRepository\" />
+    <Folder Include="Repository\" />
   </ItemGroup>
 </Project>
