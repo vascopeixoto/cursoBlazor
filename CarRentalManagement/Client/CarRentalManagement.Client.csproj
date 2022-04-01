@@ -26,4 +26,22 @@
     <ServiceWorker Include="wwwroot\service-worker.js" PublishedContent="wwwroot\service-worker.published.js" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Remove="Pages\Brands\" />
+    <None Remove="Pages\Bookings\" />
+    <None Remove="Pages\Models\" />
+    <None Remove="Pages\Customers\" />
+    <None Remove="Pages\Colors\" />
+    <None Remove="Pages\Vehicles\" />
+    <None Remove="Static\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Pages\Brands\" />
+    <Folder Include="Pages\Bookings\" />
+    <Folder Include="Pages\Models\" />
+    <Folder Include="Pages\Customers\" />
+    <Folder Include="Pages\Colors\" />
+    <Folder Include="Pages\Vehicles\" />
+    <Folder Include="Static\" />
+  </ItemGroup>
 </Project>

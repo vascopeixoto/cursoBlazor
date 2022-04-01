@@ -19,7 +19,7 @@
             <Authorized>
                 <li class="nav-item px-3">
                     <NavLink class="nav-link" href="authentication/profile" Match="NavLinkMatch.All">
-                        <span class="oi oi-person" aria-hidden="true"></span> Hello, @context.User.Identity.Name!
+                        <span class="oi oi-person" aria-hidden="true"></span> Hello, @username(context.User.Identity.Name)!
                     </NavLink>
                 </li>
                 <li class="nav-item px-3">
@@ -28,7 +28,7 @@
                     </NavLink>
                 </li>
                 @*<a href="authentication/profile">Hello, @context.User.Identity.Name!</a>
-                    <button class="nav-link btn btn-link" @onclick="BeginSignOut">Log out</button>*@
+                <button class="nav-link btn btn-link" @onclick="BeginSignOut">Log out</button>*@
             </Authorized>
             <NotAuthorized>
                 <li class="nav-item px-3">
@@ -42,7 +42,7 @@
                     </NavLink>
                 </li>
                 @*<a href="authentication/register">Register</a>
-                    <a href="authentication/login">Log in</a>*@
+                <a href="authentication/login">Log in</a>*@
             </NotAuthorized>
         </AuthorizeView>
         <li class="nav-item px-3">
@@ -51,18 +51,33 @@
             </NavLink>
         </li>
         <li class="nav-item px-3">
-            <NavLink class="nav-link" href="counter">
-                <span class="oi oi-plus" aria-hidden="true"></span> Counter
+            <NavLink class="nav-link" href="brands/">
+                <span class="oi oi-list-rich" aria-hidden="true"></span> Brands
             </NavLink>
         </li>
         <li class="nav-item px-3">
-            <NavLink class="nav-link" href="fetchdata">
-                <span class="oi oi-list-rich" aria-hidden="true"></span> Fetch data
+            <NavLink class="nav-link" href="models/">
+                <span class="oi oi-list-rich" aria-hidden="true"></span> Models
             </NavLink>
         </li>
         <li class="nav-item px-3">
-            <NavLink class="nav-link" href="samplepage">
-                <span class="oi oi-list-rich" aria-hidden="true"></span> sample page
+            <NavLink class="nav-link" href="colors/">
+                <span class="oi oi-list-rich" aria-hidden="true"></span> Colors
+            </NavLink>
+        </li>
+        <li class="nav-item px-3">
+            <NavLink class="nav-link" href="vehicles/">
+                <span class="oi oi-list-rich" aria-hidden="true"></span> Vehicles
+            </NavLink>
+        </li>
+        <li class="nav-item px-3">
+            <NavLink class="nav-link" href="customers/">
+                <span class="oi oi-list-rich" aria-hidden="true"></span> Customers
+            </NavLink>
+        </li>
+        <li class="nav-item px-3">
+            <NavLink class="nav-link" href="bookings/">
+                <span class="oi oi-list-rich" aria-hidden="true"></span> Bookings
             </NavLink>
         </li>
     </ul>
@@ -97,4 +112,12 @@
 
 
         Navigation.NavigateTo("authentication/logout");
-    } }
+    }
+
+    public string username(string n)
+    {
+        string[] m = n.Split('@');
+        return m[0];
+    }
+
+}

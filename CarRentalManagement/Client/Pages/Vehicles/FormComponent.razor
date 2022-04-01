@@ -1,0 +1,120 @@
+﻿@inject HttpClient _client;
+
+<EditForm Model="@vehicle" OnValidSubmit="@OnValidSubmit">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
+    <fieldset disabled="@Disabled">
+        <div class="form-group">
+            <label>Brand: </label>
+            <div>
+                <select @bind="vehicle.BrandId" class="form-control">
+                    <option value="">-- Select Brand --</option>
+                    @if (Brands != null)
+                    {
+                        foreach (var item in Brands)
+                        {
+                            <option value="@item.Id">@item.Name</option>
+                        }
+                    }
+                </select>
+                <ValidationMessage For="@(()=>vehicle.BrandId)" />
+
+            </div>
+
+        </div>
+
+        <div class="form-group">
+            <label>Model: </label>
+            <div>
+                <select @bind="vehicle.ModelId" class="form-control">
+                    <option value="">-- Select Model --</option>
+                    @if (Models != null)
+                    {
+                        foreach (var item in Models)
+                        {
+                            <option value="@item.Id">@item.Name</option>
+                        }
+                    }
+                </select>
+                <ValidationMessage For="@(()=>vehicle.ModelId)" />
+
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label>Color: </label>
+            <div>
+                <select @bind="vehicle.ColorId" class="form-control">
+                    <option value="">-- Select Color --</option>
+                    @if (Colors != null)
+                    {
+                        foreach (var item in Colors)
+                        {
+                            <option value="@item.Id">@item.Name</option>
+                        }
+                    }
+                </select>
+                <ValidationMessage For="@(()=>vehicle.ColorId)" />
+
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label>Year:</label>
+            <div>
+                <InputNumber @bind-Value="@vehicle.Year" class="form-control" />
+                <ValidationMessage For="@(()=>vehicle.Year)" />
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label>License Plate Number:</label>
+            <div>
+                <InputText @bind-Value="@vehicle.LicensePlateNumber" class="form-control" />
+                <ValidationMessage For="@(()=>vehicle.LicensePlateNumber)" />
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label>Vehicle Identification Number:</label>
+            <div>
+                <InputText @bind-Value="@vehicle.Vin" class="form-control" />
+                <ValidationMessage For="@(()=>vehicle.Vin)" />
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label>Daily Rate:</label>
+            <div>
+                <InputNumber @bind-Value="@vehicle.RentalRate" class="form-control" />
+                <ValidationMessage For="@(()=>vehicle.RentalRate)" />
+            </div>
+        </div>
+    </fieldset>
+
+    @if (!Disabled)
+    {
+        <button type="submit" class="btn btn-success btn-block">@ButtonText</button>
+    }
+    <BackToList Target="vehicles" />
+
+</EditForm>
+
+@code{
+    private IList<Brand> Brands;
+    private IList<Model> Models;
+    private IList<Color> Colors;
+
+    protected async override Task OnInitializedAsync()
+    {
+        Brands = await _client.GetFromJsonAsync<List<Brand>>($"{Endpoints.BrandsEndpoint}");
+        Models = await _client.GetFromJsonAsync<List<Model>>($"{Endpoints.ModelsEndpoint}");
+        Colors = await _client.GetFromJsonAsync<List<Color>>($"{Endpoints.ColorsEndpoint}");
+    }
+
+    [Parameter] public bool Disabled { get; set; } = false;
+    [Parameter] public Vehicle vehicle { get; set; }
+    [Parameter] public string ButtonText { get; set; } = "Save";
+    [Parameter] public EventCallback OnValidSubmit { get; set; }
+}
