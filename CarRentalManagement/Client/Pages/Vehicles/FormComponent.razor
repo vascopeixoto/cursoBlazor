@@ -1,6 +1,4 @@
-﻿@inject HttpClient _client;
-
-<EditForm Model="@vehicle" OnValidSubmit="@OnValidSubmit">
+﻿<EditForm Model="@vehicle" OnValidSubmit="@OnValidSubmit">
     <DataAnnotationsValidator />
     <ValidationSummary />
 
@@ -102,19 +100,5 @@
 </EditForm>
 
 @code{
-    private IList<Brand> Brands;
-    private IList<Model> Models;
-    private IList<Color> Colors;
 
-    protected async override Task OnInitializedAsync()
-    {
-        Brands = await _client.GetFromJsonAsync<List<Brand>>($"{Endpoints.BrandsEndpoint}");
-        Models = await _client.GetFromJsonAsync<List<Model>>($"{Endpoints.ModelsEndpoint}");
-        Colors = await _client.GetFromJsonAsync<List<Color>>($"{Endpoints.ColorsEndpoint}");
-    }
-
-    [Parameter] public bool Disabled { get; set; } = false;
-    [Parameter] public Vehicle vehicle { get; set; }
-    [Parameter] public string ButtonText { get; set; } = "Save";
-    [Parameter] public EventCallback OnValidSubmit { get; set; }
 }
