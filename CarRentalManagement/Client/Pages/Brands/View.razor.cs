@@ -2,6 +2,7 @@
 using System.Net.Http;
 using System.Net.Http.Json;
 using System.Threading.Tasks;
+using CarRentalManagement.Client.Contracts;
 using CarRentalManagement.Client.Static;
 using CarRentalManagement.Shared.Domain;
 using Microsoft.AspNetCore.Components;
@@ -10,7 +11,7 @@ namespace CarRentalManagement.Client.Pages.Brands
 {
     public partial class View
     {
-        [Inject] HttpClient _client { get; set; }
+        [Inject] IHttpRepository<Brand> _client { get; set; }
         [Inject] NavigationManager _navManager { get; set; }
 
         [Parameter] public int id { get; set; }
@@ -18,7 +19,7 @@ namespace CarRentalManagement.Client.Pages.Brands
 
         protected async override Task OnParametersSetAsync()
         {
-            brand = await _client.GetFromJsonAsync<Brand>($"{Endpoints.BrandsEndpoint}{id}");
+            brand = await _client.Get(Endpoints.BrandsEndpoint,id);
         }
     }
 }

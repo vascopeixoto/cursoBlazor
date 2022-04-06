@@ -37,6 +37,8 @@
     <None Remove="Static\" />
     <None Remove="Toolbelt.Blazor.HttpClientInterceptor" />
     <None Remove="Services\" />
+    <None Remove="Pages\Counter\" />
+    <None Remove="Contracts\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Pages\Brands\" />
@@ -47,5 +49,11 @@
     <Folder Include="Pages\Vehicles\" />
     <Folder Include="Static\" />
     <Folder Include="Services\" />
+    <Folder Include="wwwroot\scripts\" />
+    <Folder Include="Pages\Counter\" />
+    <Folder Include="Contracts\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Remove="wwwroot\scripts\" />
   </ItemGroup>
 </Project>

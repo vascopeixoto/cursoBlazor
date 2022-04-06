@@ -1,5 +1,6 @@
 ﻿@page "/bookings/"
 @attribute [Authorize]
+@implements IDisposable
 
 <h3 class="card-title">Bookings</h3>
 
@@ -14,7 +15,7 @@
 }
 else
 {
-    <table class="table">
+    <table class="table" id="bookingsTable">
         <thead>
             <tr>
                 <th>Customer Tax Id</th>

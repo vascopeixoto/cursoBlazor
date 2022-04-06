@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Json;
 using System.Threading.Tasks;
+using CarRentalManagement.Client.Contracts;
 using CarRentalManagement.Client.Services;
 using CarRentalManagement.Client.Static;
 using CarRentalManagement.Shared.Domain;
@@ -14,17 +15,24 @@ namespace CarRentalManagement.Client.Pages.Colors
 {
     public partial class Index : IDisposable
     {
-        [Inject] HttpClient _client { get; set; }
+        [Inject] IHttpRepository<Color> _client { get; set; }
         [Inject] IJSRuntime js { get; set; }
-        [Inject] HttpInterceptorService _interceptor { get; set; }
-
-
-        private List<Color> Colors;
+        private IList<Color> Colors;
 
         protected async override Task OnInitializedAsync()
         {
-            _interceptor.MonitorEvent();
-            Colors = await _client.GetFromJsonAsync<List<Color>>($"{Endpoints.ColorsEndpoint}");
+            Colors = await _client.GetAll(Endpoints.ColorsEndpoint);
+        }
+
+        protected async override Task OnAfterRenderAsync(bool firstRender)
+        {
+            await js.InvokeVoidAsync("AddDataTable", "#colorsTable");
+        }
+
+        void IDisposable.Dispose()
+        {
+            js.InvokeVoidAsync("DataTablesDispose", "#colorsTable");
+
         }
 
         async Task Delete(int colorId)
@@ -33,15 +41,10 @@ namespace CarRentalManagement.Client.Pages.Colors
             var confirm = await js.InvokeAsync<bool>("confirm", $"Do you want to delete {color.Name}?");
             if (confirm)
             {
-                await _client.DeleteAsync($"{Endpoints.ColorsEndpoint}{colorId}");
+                await _client.Delete(Endpoints.ColorsEndpoint, colorId);
                 await OnInitializedAsync();
             }
 
-        }
-
-        public void Dispose()
-        {
-            _interceptor.DisposeEvent();
         }
     }
 }

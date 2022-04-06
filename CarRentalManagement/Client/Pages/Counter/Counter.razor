@@ -1,0 +1,65 @@
+﻿@page "/euromilhoes"
+
+<h1>EuroMilhões</h1>
+
+<button class="btn btn-primary" @onclick="Gerar">Gerar Chave</button>
+
+<button class="btn btn-danger" @onclick="Apagar">Apagar Chave</button>
+
+<br />
+<br />
+
+<div class="row">
+    <div class="col-md-9">
+        <h3>Numeros</h3>
+
+    </div>
+    <div class="col-md-3">
+        <h3>Estrelas</h3>
+
+    </div>
+</div>
+<table class="table">
+    <thead>
+        <tr>
+            <th style="background-color: lightgrey;">N 1</th>
+            <th style="background-color: lightgrey;">N 2</th>
+            <th style="background-color: lightgrey;">N 3</th>
+            <th style="background-color: lightgrey;">N 4</th>
+            <th style="background-color: lightgrey;">N 5</th>
+            <th style="background-color: darkgrey; color: white; font-weight: bolder">E 1</th>
+            <th style="background-color: darkgrey; color: white; font-weight: bolder">E 2</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+
+            @foreach (var item in chave.num)
+            {
+                <td style="background-color: lightgrey;">@item.n1</td>
+            }
+            @foreach (var item in chave.est)
+            {
+                <td style="background-color: darkgrey; color: white; font-weight: bolder">@item.n1</td>
+            }
+
+        </tr>
+
+    </tbody>
+</table>
+
+<p>Obrigado Por Nos Escolher!</p>
+
+@code{
+    Chave chave = new Chave();
+    void Gerar()
+    {
+        chave.AddNumeros();
+        chave.AddEstrelas();
+    }
+    void Apagar()
+    {
+        chave.RemoveNumeros();
+        chave.RemoveEstrelas();
+    }
+}

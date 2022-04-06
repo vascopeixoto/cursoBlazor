@@ -1,8 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Json;
 using System.Threading.Tasks;
+using CarRentalManagement.Client.Contracts;
 using CarRentalManagement.Client.Static;
 using CarRentalManagement.Shared.Domain;
 using Microsoft.AspNetCore.Components;
@@ -12,14 +14,26 @@ namespace CarRentalManagement.Client.Pages.Bookings
 {
     public partial class Index
     {
-        [Inject] HttpClient _client { get; set; }
+        [Inject] IHttpRepository<Booking> _client { get; set; }
+
         [Inject] IJSRuntime js { get; set; }
 
-        private List<Booking> Bookings;
+        private IList<Booking> Bookings;
 
         protected async override Task OnInitializedAsync()
         {
-            Bookings = await _client.GetFromJsonAsync<List<Booking>>($"{Endpoints.BookingsEndpoint}");
+            Bookings = await _client.GetAll(Endpoints.BookingsEndpoint);
+        }
+
+        protected async override Task OnAfterRenderAsync(bool firstRender)
+        {
+            await js.InvokeVoidAsync("AddDataTable","#bookingsTable");
+        }
+
+        void IDisposable.Dispose()
+        {
+            js.InvokeVoidAsync("DataTablesDispose", "#bookingsTable");
+
         }
 
         async Task Delete(int bookingId)
@@ -28,7 +42,7 @@ namespace CarRentalManagement.Client.Pages.Bookings
             var confirm = await js.InvokeAsync<bool>("confirm", $"Do you want to delete {booking.Customer.EmailAddress} Booking?");
             if (confirm)
             {
-                await _client.DeleteAsync($"{Endpoints.BookingsEndpoint}{bookingId}");
+                await _client.Delete(Endpoints.BookingsEndpoint,bookingId);
                 await OnInitializedAsync();
             }
 

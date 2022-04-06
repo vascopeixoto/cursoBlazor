@@ -1,5 +1,6 @@
 ﻿@page "/vehicles/"
 @attribute [Authorize]
+@implements IDisposable
 
 <h3 class="card-title">Vehicles</h3>
 <hr />
@@ -13,9 +14,10 @@
 }
 else
 {
-    <table class="table">
+    <table class="table" id="vehiclesTable">
         <thead>
             <tr>
+                <th></th>
                 <th>Brand</th>
                 <th>Models</th>
                 <th>Year</th>
@@ -27,6 +29,7 @@ else
             @foreach (var vehicle in Vehicles)
             {
             <tr>
+                <td><img src="@vehicle.ImageName" style="height:150px; width:150px"/></td>
                 <td>@vehicle.Brand.Name</td>
                 <td>@vehicle.Model.Name</td>
                 <td>@vehicle.Year</td>

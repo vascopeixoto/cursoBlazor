@@ -2,6 +2,7 @@
 using System.Net.Http;
 using System.Net.Http.Json;
 using System.Threading.Tasks;
+using CarRentalManagement.Client.Contracts;
 using CarRentalManagement.Client.Static;
 using CarRentalManagement.Shared.Domain;
 using Microsoft.AspNetCore.Components;
@@ -10,7 +11,7 @@ namespace CarRentalManagement.Client.Pages.Bookings
 {
     public partial class Edit
     {
-        [Inject] HttpClient _client { get; set; }
+        [Inject] IHttpRepository<Booking> _client { get; set; }
         [Inject] NavigationManager _navManager { get; set; }
 
         [Parameter] public int id { get; set; }
@@ -18,12 +19,12 @@ namespace CarRentalManagement.Client.Pages.Bookings
 
         protected async override Task OnParametersSetAsync()
         {
-            booking = await _client.GetFromJsonAsync<Booking>($"{Endpoints.BookingsEndpoint}{id}");
+            booking = await _client.Get(Endpoints.BookingsEndpoint,id);
         }
 
         async Task EditBooking()
         {
-            await _client.PutAsJsonAsync($"{Endpoints.BookingsEndpoint}{id}", booking);
+            await _client.Update(Endpoints.BookingsEndpoint, booking, id);
             _navManager.NavigateTo("/bookings/");
 
         }

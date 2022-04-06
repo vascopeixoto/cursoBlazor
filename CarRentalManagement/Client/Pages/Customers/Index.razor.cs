@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Json;
 using System.Threading.Tasks;
+using CarRentalManagement.Client.Contracts;
 using CarRentalManagement.Client.Static;
 using CarRentalManagement.Shared.Domain;
 using Microsoft.AspNetCore.Components;
@@ -13,15 +14,27 @@ namespace CarRentalManagement.Client.Pages.Customers
 {
     public partial class Index
     {
-        [Inject] HttpClient _client { get; set; }
+        [Inject] IHttpRepository<Customer> _client { get; set; }
         [Inject] IJSRuntime js { get; set; }
 
-        private List<Customer> Customers;
+        private IList<Customer> Customers;
 
         protected async override Task OnInitializedAsync()
         {
-            Customers = await _client.GetFromJsonAsync<List<Customer>>($"{Endpoints.CustomersEndpoint}");
+            Customers = await _client.GetAll(Endpoints.CustomersEndpoint);
         }
+
+        protected async override Task OnAfterRenderAsync(bool firstRender)
+        {
+            await js.InvokeVoidAsync("AddDataTable", "#customersTable");
+        }
+
+        void IDisposable.Dispose()
+        {
+            js.InvokeVoidAsync("DataTablesDispose", "#customersTable");
+
+        }
+
 
         async Task Delete(int customerId)
         {
@@ -29,7 +42,7 @@ namespace CarRentalManagement.Client.Pages.Customers
             var confirm = await js.InvokeAsync<bool>("confirm", $"Do you want to delete {customer.EmailAddress}?");
             if (confirm)
             {
-                await _client.DeleteAsync($"{Endpoints.CustomersEndpoint}{customerId}");
+                await _client.Delete(Endpoints.CustomersEndpoint, customerId);
                 await OnInitializedAsync();
             }
 
