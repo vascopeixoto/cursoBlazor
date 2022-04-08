@@ -1,12 +1,12 @@
-﻿using System;
+﻿using CarRentalManagement.Server.Data;
+using CarRentalManagement.Server.IRepository;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Query;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
-using CarRentalManagement.Server.Data;
-using CarRentalManagement.Server.IRepository;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Query;
 
 namespace CarRentalManagement.Server.Repository
 {
@@ -36,7 +36,7 @@ namespace CarRentalManagement.Server.Repository
         {
             IQueryable<T> query = _db;
 
-            if (includes != null)
+            if(includes != null)
             {
                 query = includes(query);
             }
@@ -44,7 +44,9 @@ namespace CarRentalManagement.Server.Repository
             return await query.AsNoTracking().FirstOrDefaultAsync(expression);
         }
 
-        public async Task<IList<T>> GetAll(Expression<Func<T, bool>> expression = null, Func<IQueryable<T>, IOrderedQueryable<T>> orderby = null, Func<IQueryable<T>, IIncludableQueryable<T, object>> includes = null)
+        public async Task<IList<T>> GetAll(Expression<Func<T, bool>> expression = null, 
+            Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null,
+            Func<IQueryable<T>, IIncludableQueryable<T, object>> includes = null)
         {
             IQueryable<T> query = _db;
 
@@ -58,9 +60,9 @@ namespace CarRentalManagement.Server.Repository
                 query = includes(query);
             }
 
-            if (orderby != null)
+            if (orderBy != null)
             {
-                query = orderby(query);
+                query = orderBy(query);
             }
 
             return await query.AsNoTracking().ToListAsync();
@@ -80,7 +82,6 @@ namespace CarRentalManagement.Server.Repository
         {
             _db.Attach(entity);
             _context.Entry(entity).State = EntityState.Modified;
-
         }
     }
 }

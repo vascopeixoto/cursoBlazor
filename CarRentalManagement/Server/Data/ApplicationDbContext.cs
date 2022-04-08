@@ -19,7 +19,6 @@ namespace CarRentalManagement.Server.Data
             IOptions<OperationalStoreOptions> operationalStoreOptions) : base(options, operationalStoreOptions)
         {
         }
-
         public DbSet<Vehicle> Vehicles { get; set; }
         public DbSet<Color> Colors { get; set; }
         public DbSet<Brand> Brands { get; set; }

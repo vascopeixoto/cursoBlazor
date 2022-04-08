@@ -1,45 +1,53 @@
 ﻿@page "/models/"
 @attribute [Authorize]
-@implements IDisposable
+    <HeadingComponent Text="Models" />
+    <br />
 
-<h3 class="card-title">Car Models</h3>
-<hr />
-<br />
-
-<a href="/models/create/" class="btn btn-secondary"><span class="oi oi-plus"></span> Create New Model</a>
-
-@if (Models == null)
-{
-    <div class="alert alert-info">Loading Models...</div>
-}
-else
-{
-    <table class="table" id="modelsTable">
-        <thead>
-            <tr>
-                <th>Name</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var model in Models)
-            {
+    <a href="/models/create" class="btn btn-secondary">
+        <span class="oi oi-plus"></span>
+        Create New Model
+    </a>
+    <br />
+    <br />
+    @if (Models == null)
+    {
+        <div class="alert alert-info">Loading Models...</div>
+    }
+    else
+    {
+        <table class="table ">
+            <thead>
                 <tr>
-                    <td>@model.Name</td>
-                    <td>
-                        <a href="/models/view/@model.Id" class="btn btn-primary"><span class="oi oi-book"></span></a>
-
-                        <a href="/models/edit/@model.Id" class="btn btn-warning"><span class="oi oi-pencil"></span></a>
-
-                        <button class="btn btn-danger" @onclick="@(()=>Delete(model.Id))"><span class="oi oi-delete"></span></button>
-                    </td>
-
+                    <th>Name</th>
+                    <th>Actions</th>
                 </tr>
-            }
-        </tbody>
-    </table>
-}
+            </thead>
+            <tbody>
+                @foreach (var model in Models)
+                {
+                    <tr>
+                        <td>@model.Name</td>
 
-@code {
-    
-}
+                        <td>
+                            <a href="/models/view/@model.Id" class="btn btn-primary">
+                                <span class="oi oi-book"></span>
+                            </a>
+                            <a href="/models/edit/@model.Id" class="btn btn-warning">
+                                <span class="oi oi-pencil"></span>
+                            </a>
+                            <button class="btn btn-danger" @onclick="@(()=>Delete(model.Id))">
+                                <span class="oi oi-delete"></span>
+                            </button>
+
+                        </td>
+                    </tr>
+
+                }
+            </tbody>
+        </table>
+    }
+
+
+    @code {
+        
+    }

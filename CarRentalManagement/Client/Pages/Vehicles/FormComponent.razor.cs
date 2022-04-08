@@ -1,19 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Net.Http;
-using System.Net.Http.Json;
-using System.Threading.Tasks;
+﻿using CarRentalManagement.Client.Contracts;
 using CarRentalManagement.Client.Static;
 using CarRentalManagement.Shared.Domain;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace CarRentalManagement.Client.Pages.Vehicles
 {
     public partial class FormComponent
     {
-        [Inject] HttpClient _client { get; set; }
-
         private IList<Brand> Brands;
         private IList<Model> Models;
         private IList<Color> Colors;
@@ -21,34 +19,40 @@ namespace CarRentalManagement.Client.Pages.Vehicles
 
         protected async override Task OnInitializedAsync()
         {
-            Brands = await _client.GetFromJsonAsync<List<Brand>>($"{Endpoints.BrandsEndpoint}");
-            Models = await _client.GetFromJsonAsync<List<Model>>($"{Endpoints.ModelsEndpoint}");
-            Colors = await _client.GetFromJsonAsync<List<Color>>($"{Endpoints.ColorsEndpoint}");
+            Models = await _clientModels.GetAll(Endpoints.ModelsEndpoint);
+            Colors = await _clientColors.GetAll(Endpoints.ColorsEndpoint);
+            Brands = await _clientBrands.GetAll(Endpoints.BrandsEndpoint);
         }
 
         private async void HandleFileSelection(InputFileChangeEventArgs e)
         {
             var file = e.File;
-            if(file != null)
+            if (file != null)
             {
                 var ext = System.IO.Path.GetExtension(file.Name);
-                if (ext.ToLower().Contains("jpg") || ext.ToLower().Contains("png") || ext.ToLower().Contains("jpeg"))
+                if (ext.ToLower().Contains("jpg")
+                    || ext.ToLower().Contains("png")
+                    || ext.ToLower().Contains("jpeg"))
                 {
-                    var picID = Guid.NewGuid().ToString().Replace("-", "");
-                    vehicle.ImageName = $"{picID}{ext}";
+                    var picId = Guid.NewGuid().ToString().Replace("-", "");
+                    vehicle.ImageName = $"{picId}{ext}";
                     vehicle.Image = new byte[file.Size];
                     await file.OpenReadStream().ReadAsync(vehicle.Image);
                     UploadFileWarning = string.Empty;
                 }
                 else
                 {
-                    UploadFileWarning = "Please select a valid image";
+                    UploadFileWarning = "Please select a valid image file (*.jpg | *.png)";
                 }
             }
         }
+
         [Parameter] public bool Disabled { get; set; } = false;
         [Parameter] public Vehicle vehicle { get; set; }
         [Parameter] public string ButtonText { get; set; } = "Save";
         [Parameter] public EventCallback OnValidSubmit { get; set; }
+        [Inject] IHttpRepository<Brand> _clientBrands { get; set; }
+        [Inject] IHttpRepository<Color> _clientColors { get; set; }
+        [Inject] IHttpRepository<Model> _clientModels { get; set; }
     }
 }

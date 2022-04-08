@@ -1,9 +1,10 @@
-﻿using System;
+﻿using CarRentalManagement.Client.Contracts;
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Json;
 using System.Threading.Tasks;
-using CarRentalManagement.Client.Contracts;
 
 namespace CarRentalManagement.Client.Services
 {
@@ -17,7 +18,6 @@ namespace CarRentalManagement.Client.Services
             _client = client;
             _interceptor = interceptor;
         }
-
         public async Task Create(string url, T obj)
         {
             _interceptor.MonitorEvent();
@@ -27,7 +27,7 @@ namespace CarRentalManagement.Client.Services
         public async Task Delete(string url, int id)
         {
             _interceptor.MonitorEvent();
-            await _client.DeleteAsync($"{url}{id}");
+            await _client.DeleteAsync($"{url}/{id}");
         }
 
         public void Dispose()
@@ -38,25 +38,27 @@ namespace CarRentalManagement.Client.Services
         public async Task<T> Get(string url, int id)
         {
             _interceptor.MonitorEvent();
-            return await _client.GetFromJsonAsync<T>($"{url}{id}");
+            return await _client.GetFromJsonAsync<T>($"{url}/{id}");
         }
 
         public async Task<T> GetDetails(string url, int id)
         {
             _interceptor.MonitorEvent();
-            return await _client.GetFromJsonAsync<T>($"{url}{id}/details");
+            return await _client.GetFromJsonAsync<T>($"{url}/{id}/details");
         }
 
-        public async Task<IList<T>> GetAll(string url)
+        public async Task<List<T>> GetAll(string url)
         {
             _interceptor.MonitorEvent();
-            return await _client.GetFromJsonAsync<IList<T>>($"{url}");
+            return await _client.GetFromJsonAsync<List<T>>($"{url}");
         }
 
         public async Task Update(string url, T obj, int id)
         {
             _interceptor.MonitorEvent();
-            await _client.PutAsJsonAsync($"{url}{id}", obj);
+            await _client.PutAsJsonAsync($"{url}/{id}", obj);
         }
+
+
     }
 }

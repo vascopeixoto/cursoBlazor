@@ -1,6 +1,11 @@
-﻿using System;
+﻿using CarRentalManagement.Client.Contracts;
+using CarRentalManagement.Client.Static;
 using CarRentalManagement.Shared.Domain;
 using Microsoft.AspNetCore.Components;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace CarRentalManagement.Client.Pages.Colors
 {

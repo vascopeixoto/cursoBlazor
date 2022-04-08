@@ -1,7 +1,10 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Components;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using System.Net.Http;
-using Microsoft.AspNetCore.Components;
+using System.Threading.Tasks;
 using Toolbelt.Blazor;
 
 namespace CarRentalManagement.Client.Services
@@ -25,21 +28,21 @@ namespace CarRentalManagement.Client.Services
             if (!e.Response.IsSuccessStatusCode)
             {
                 var responseCode = e.Response.StatusCode;
+
                 switch (responseCode)
                 {
                     case HttpStatusCode.NotFound:
                         _navManager.NavigateTo("/404");
-                        message = "The requested resource was not found.";
+                        message = "The requested resorce was not found.";
                         break;
                     case HttpStatusCode.Unauthorized:
                     case HttpStatusCode.Forbidden:
                         _navManager.NavigateTo("/unauthorized");
-                        message = "You are not authorized to acess this resource.";
+                        message = "You are not authorized to access this resource. ";
                         break;
-
                     default:
                         _navManager.NavigateTo("/500");
-                        message = "Something went wrong, please contact the admins.";
+                        message = "Something went wrong, please contact Administrator";
                         break;
                 }
                 throw new HttpRequestException(message);
@@ -47,5 +50,6 @@ namespace CarRentalManagement.Client.Services
         }
 
         public void DisposeEvent() => _interceptor.AfterSend -= InterceptResponse;
+
     }
 }

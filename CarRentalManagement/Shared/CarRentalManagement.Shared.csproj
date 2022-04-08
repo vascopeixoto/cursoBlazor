@@ -7,10 +7,4 @@
   <ItemGroup>
     <SupportedPlatform Include="browser" />
   </ItemGroup>
-  <ItemGroup>
-    <None Remove="Domain\" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Domain\" />
-  </ItemGroup>
 </Project>

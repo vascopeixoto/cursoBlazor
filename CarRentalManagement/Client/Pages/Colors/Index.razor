@@ -1,46 +1,52 @@
 ﻿@page "/colors/"
 @attribute [Authorize]
-@implements IDisposable
-
-<h3 class="card-title">Car Colors</h3>
-
-<hr />
-<br />
-
-<a href="/colors/create/" class="btn btn-secondary"><span class="oi oi-plus"></span> Create New Color</a>
-
-@if (Colors == null)
-{
-    <div class="alert alert-info">Loading Colors...</div>
-}
-else
-{
-    <table class="table" id="colorsTable">
-        <thead>
-            <tr>
-                <th>Name</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var color in Colors)
-            {
+    <HeadingComponent Text="Colors" />
+    <br />
+    <a href="/colors/create" class="btn btn-secondary">
+        <span class="oi oi-plus"></span>
+        Create New Colour
+    </a>
+    <br />
+    <br />
+    @if (Colors == null)
+    {
+        <div class="alert alert-info">Loading Colours...</div>
+    }
+    else
+    {
+        <table class="table ">
+            <thead>
                 <tr>
-                    <td>@color.Name</td>
-                    <td>
-                        <a href="/colors/view/@color.Id" class="btn btn-primary"><span class="oi oi-book"></span></a>
-
-                        <a href="/colors/edit/@color.Id" class="btn btn-warning"><span class="oi oi-pencil"></span></a>
-
-                        <button class="btn btn-danger" @onclick="@(()=>Delete(color.Id))"><span class="oi oi-delete"></span></button>
-                    </td>
-
+                    <th>Name</th>
+                    <th>Actions</th>
                 </tr>
-            }
-        </tbody>
-    </table>
-}
+            </thead>
+            <tbody>
+                @foreach (var color in Colors)
+                {
+                    <tr>
+                        <td>@color.Name</td>
 
-@code {
-    
-}
+                        <td>
+                            <a href="/colors/view/@color.Id" class="btn btn-primary">
+                                <span class="oi oi-book"></span>
+                            </a>
+                            <a href="/colors/edit/@color.Id" class="btn btn-warning">
+                                <span class="oi oi-pencil"></span>
+                            </a>
+                            <button class="btn btn-danger" @onclick="@(()=>Delete(color.Id))">
+                                <span class="oi oi-delete"></span>
+                            </button>
+
+                        </td>
+                    </tr>
+
+                }
+            </tbody>
+        </table>
+    }
+
+
+    @code {
+        
+    }

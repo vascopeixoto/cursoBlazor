@@ -5,28 +5,28 @@ namespace CarRentalManagement.Shared.Domain
 {
     public class Customer : BaseDomainModel
     {
-        [Required(ErrorMessage = "Enter the First name")]
-        [StringLength(100, MinimumLength = 2, ErrorMessage = "Invalid Size")]
+        [Required]
+        [StringLength(100, MinimumLength = 2)]
         public string FirstName { get; set; }
-
-        [Required(ErrorMessage = "Enter the Last name")]
-        [StringLength(100, MinimumLength = 2, ErrorMessage = "Invalid Size")]
+        
+        [Required]
+        [StringLength(100, MinimumLength = 2)]
         public string LastName { get; set; }
-
-        [Required(ErrorMessage = "Enter the Tax Id")]
-        public string TaxId { get; set; }
 
         public string Address { get; set; }
 
-        [DataType(DataType.PhoneNumber, ErrorMessage = "Invalid Type")]
+        [Required(ErrorMessage = "Enter Tax Id")]
+        [StringLength(15, MinimumLength = 8, ErrorMessage = "Tax Id does not meet length requirements")]
+        public string TaxId { get; set; }
+
+        [Required]
+        [DataType(DataType.PhoneNumber)]
         public string ContactNumber { get; set; }
 
-        [Required(ErrorMessage = "Enter the Email")]
+        [Required]
         [DataType(DataType.EmailAddress)]
         [EmailAddress]
         public string EmailAddress { get; set; }
-
         public virtual List<Booking> Bookings { get; set; }
-
     }
 }

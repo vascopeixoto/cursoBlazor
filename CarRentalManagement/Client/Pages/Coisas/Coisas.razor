@@ -1,0 +1,76 @@
+﻿@page "/coisas"
+
+<h1>Coisas</h1>
+<br />
+<br />
+<div class="row">
+    <div class="col-md-6">
+        <button class="btn btn-primary" @onclick="AddEsquerda"><span class="oi oi-arrow-thick-bottom" aria-hidden="true"></span>ADD</button>
+        <button class="btn btn-danger" @onclick="RemoveEsquerda"><span class="oi oi-arrow-thick-bottom" aria-hidden="true"></span>Delete Last</button>
+        <h3>Esquerda</h3>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th style="background-color: lightgrey;">Esquerda</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in i)
+                {
+                    <tr>
+                        <td style="background-color: lightgrey;">@item</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    <div class="col-md-6">
+        <button class="btn btn-primary" @onclick="AddDireita"><span class="oi oi-arrow-thick-bottom" aria-hidden="true"></span>ADD</button>
+        <button class="btn btn-danger" @onclick="RemoveDireita"><span class="oi oi-arrow-thick-bottom" aria-hidden="true"></span>Delete Last</button>
+        <h3>Direita</h3>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th style="background-color: lightgrey;">Direita</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in ii)
+                {
+                    <tr>
+                        <td style="background-color: lightgrey;">@item</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+@code{
+    List<int> i = new List<int>();
+    List<int> ii = new List<int>();
+
+    void AddEsquerda()
+    {
+        Random rnd = new Random();
+        int n = rnd.Next(10, 101);
+        i.Add(n);
+    }
+
+    void RemoveEsquerda()
+    {
+        i.RemoveAt(i.Count - 1);
+    }
+
+    void AddDireita()
+    {
+        Random rnd = new Random();
+        int n = rnd.Next(10, 101);
+        ii.Add(n);
+    }
+
+    void RemoveDireita()
+    {
+        ii.RemoveAt(ii.Count - 1);
+    }
+}

@@ -1,46 +1,51 @@
 ﻿@page "/brands/"
 @attribute [Authorize]
-@implements IDisposable
-
-<h3 class="card-title">Car Brands</h3>
-
-<hr />
-<br />
-
-<a href="/brands/create/" class="btn btn-secondary"><span class="oi oi-plus"></span> Create New Brand</a>
-
-@if (Brands == null)
-{
-    <div class="alert alert-info">Loading Brands...</div>
-}
-else
-{
-    <table class="table" id="brandsTable">
-        <thead>
-            <tr>
-                <th>Name</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var brand in Brands)
-            {
+    <HeadingComponent Text="Brands" />
+    <br />
+    <a href="/brands/create" class="btn btn-secondary">
+        <span class="oi oi-plus"></span>
+        Create New Make
+    </a>
+    <br />
+    <br />
+    @if (Brands == null)
+    {
+        <div class="alert alert-info">Loading Makes...</div>
+    }
+    else
+    {
+        <table class="table ">
+            <thead>
                 <tr>
-                    <td>@brand.Name</td>
-                    <td>
-                        <a href="/brands/view/@brand.Id" class="btn btn-primary"><span class="oi oi-book"></span></a>
-
-                        <a href="/brands/edit/@brand.Id" class="btn btn-warning"><span class="oi oi-pencil"></span></a>
-
-                        <button class="btn btn-danger" @onclick="@(()=>Delete(brand.Id))"><span class="oi oi-delete"></span></button>
-                    </td>
-
+                    <th>Name</th>
+                    <th>Actions</th>
                 </tr>
-            }
-        </tbody>
-    </table>
-}
+            </thead>
+            <tbody>
+                @foreach (var brand in Brands)
+                {
+                    <tr>
+                        <td>@brand.Name</td>
+                        <td>
+                            <a href="/brands/view/@brand.Id" class="btn btn-primary">
+                                <span class="oi oi-book"></span>
+                            </a>
+                            <a href="/brands/edit/@brand.Id" class="btn btn-warning">
+                                <span class="oi oi-pencil"></span>
+                            </a>
+                            <button class="btn btn-danger" @onclick="@(()=>Delete(brand.Id))">
+                                <span class="oi oi-delete"></span>
+                            </button>
 
-@code {
-    
-}
+                        </td>
+                    </tr>
+
+                }
+            </tbody>
+        </table>
+    }
+
+
+    @code {
+        
+    }

@@ -1,15 +1,14 @@
-﻿<EditForm Model="@vehicle" OnValidSubmit="@OnValidSubmit">
+﻿@inject HttpClient _client
+<EditForm Model="@vehicle" OnValidSubmit="OnValidSubmit">
     <DataAnnotationsValidator />
     <ValidationSummary />
-
     <fieldset disabled="@Disabled">
-
         @if (Disabled)
         {
             <div class="form-group">
                 <label>Image (Optional):</label>
                 <div>
-                    <img src="@vehicle.ImageName" class="img-thumbnail" style="width:150px; height:150px" />
+                   <img src="@vehicle.ImageName" class="img-thumbnail" style="width:150px; height:150px" />
                 </div>
             </div>
         }
@@ -31,36 +30,31 @@
                     <option value="">-- Select Brand --</option>
                     @if (Brands != null)
                     {
-                        foreach (var item in Brands)
+                        foreach (var brand in Brands)
                         {
-                            <option value="@item.Id">@item.Name</option>
+                            <option value="@brand.Id">@brand.Name</option>
                         }
                     }
                 </select>
-                <ValidationMessage For="@(()=>vehicle.BrandId)" />
-
+                <ValidationMessage For="@(() => vehicle.BrandId)" />
             </div>
-
         </div>
-
         <div class="form-group">
             <label>Model: </label>
             <div>
-                <select @bind="vehicle.ModelId" class="form-control">
+                <InputSelect @bind-Value="vehicle.ModelId" class="form-control">
                     <option value="">-- Select Model --</option>
                     @if (Models != null)
                     {
-                        foreach (var item in Models)
+                        foreach (var model in Models)
                         {
-                            <option value="@item.Id">@item.Name</option>
+                            <option value="@model.Id">@model.Name</option>
                         }
                     }
-                </select>
-                <ValidationMessage For="@(()=>vehicle.ModelId)" />
-
+                </InputSelect>
+                <ValidationMessage For="@(() => vehicle.ModelId)" />
             </div>
         </div>
-
         <div class="form-group">
             <label>Color: </label>
             <div>
@@ -68,58 +62,54 @@
                     <option value="">-- Select Color --</option>
                     @if (Colors != null)
                     {
-                        foreach (var item in Colors)
+                        foreach (var color in Colors)
                         {
-                            <option value="@item.Id">@item.Name</option>
+                            <option value="@color.Id">@color.Name</option>
                         }
                     }
                 </select>
-                <ValidationMessage For="@(()=>vehicle.ColorId)" />
-
+                <ValidationMessage For="@(() => vehicle.ColorId)" />
             </div>
         </div>
-
         <div class="form-group">
             <label>Year:</label>
             <div>
                 <InputNumber @bind-Value="@vehicle.Year" class="form-control" />
-                <ValidationMessage For="@(()=>vehicle.Year)" />
+                <ValidationMessage For="@(() => vehicle.Year)" />
             </div>
         </div>
-
         <div class="form-group">
             <label>License Plate Number:</label>
             <div>
                 <InputText @bind-Value="@vehicle.LicensePlateNumber" class="form-control" />
-                <ValidationMessage For="@(()=>vehicle.LicensePlateNumber)" />
+                <ValidationMessage For="@(() => vehicle.LicensePlateNumber)" />
             </div>
         </div>
-
         <div class="form-group">
             <label>Vehicle Identification Number:</label>
             <div>
                 <InputText @bind-Value="@vehicle.Vin" class="form-control" />
-                <ValidationMessage For="@(()=>vehicle.Vin)" />
+                <ValidationMessage For="@(() => vehicle.Vin)" />
             </div>
         </div>
-
         <div class="form-group">
             <label>Daily Rate:</label>
             <div>
                 <InputNumber @bind-Value="@vehicle.RentalRate" class="form-control" />
-                <ValidationMessage For="@(()=>vehicle.RentalRate)" />
+                <ValidationMessage For="@(() => vehicle.RentalRate)" />
             </div>
         </div>
     </fieldset>
-
     @if (!Disabled)
     {
-        <button type="submit" class="btn btn-success btn-block">@ButtonText</button>
+        <button type="submit" class="btn btn-success btn-block">
+            @ButtonText
+        </button>
     }
     <BackToList Target="vehicles" />
-
 </EditForm>
 
-@code{
 
+@code {
+    
 }
